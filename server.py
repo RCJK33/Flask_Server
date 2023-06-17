@@ -4,7 +4,10 @@ import json
 from config import db
 from bson import ObjectId
 
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
 
 @app.get('/')
 def home():
@@ -84,7 +87,7 @@ def categories():
 
     cursor = db.products.find({})
     for prod in cursor:
-        categories.add(str(prod['category']).lower())
+        categories.add(str(prod['category']))
     categories = list(categories)
     categories.sort()
     return json.dumps(categories)
