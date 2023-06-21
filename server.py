@@ -121,6 +121,17 @@ def get_products_by_id(id):
     product = fix_id(product)
     return json.dumps(product)
 
+@app.delete('/api/products/<_id>')
+def delete_products_by_id(_id):
+    if not ObjectId.is_valid(_id):
+        return abort(400, "Invalid id")
+    
+    fix_to_db_id = ObjectId(_id)
+    response = db.products.delete_one({'_id': fix_to_db_id})
+    if response.deleted_count == 0:
+        return abort(404, 'Product not found')
+    return json.dumps({'deleted': True})
+
 """ API Coupon Codes """
 
 # save, read all, read by code
@@ -161,10 +172,23 @@ def get_coupons():
     return json.dumps(coupons)
 
 @app.get('/api/coupons/<code>')
-def get_coupon(code):
+def get_coupon_by_Code(code):
     coupon = db.coupons.find_one({'code':str(code)})
     if coupon == None:
         return abort(404, 'Coupon not found')
     return json.dumps(fix_id(coupon))
 
-app.run(debug=True)
+@app.delete('/api/coupons/<_id>')
+def delete_coupon(_id):
+    if not ObjectId.is_valid(_id):
+        return abort(400, "Invalid id")
+    
+    fix_to_db_id = ObjectId(_id)
+    response = db.coupons.delete_one({'_id': fix_to_db_id})
+    if response.deleted_count == 0:
+        return abort(404, 'Coupon not found')
+    return json.dumps({'deleted': True})
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
