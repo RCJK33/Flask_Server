@@ -13,15 +13,24 @@ CORS(app)
 def home():
     return "Hello, this is a home page"
 
-@app.get('/test')
-def test():
-    return '<a href="/about ">about<a/>\n<a href="/api/version ">version<a/>'
 
 @app.get('/api/about')
 def about():
     me = {'name:': 'Rafael'}
     return json.dumps(me)
 
+@app.get('/api/version')
+def version():
+    version = {
+        'name': 'apiFLASK!1',
+        'version': 35,
+        'build': 2948
+    }
+    return json.dumps(version)
+
+""" @app.get('/test')
+def test():
+    return '<a href="/about ">about<a/>\n<a href="/api/version ">version<a/>' """
 
 #############################
 # API endpoints
@@ -31,15 +40,6 @@ def about():
 def fix_id(obj):
     obj['_id'] = str(obj['_id'])
     return obj
-
-@app.get('/api/version')
-def version():
-    version = {
-        'name': 'mouse',
-        'version': 35,
-        'build': 2948
-    }
-    return json.dumps(version)
 
 @app.get('/api/products')
 def get_products():
@@ -132,14 +132,9 @@ def delete_products_by_id(_id):
         return abort(404, 'Product not found')
     return json.dumps({'deleted': True})
 
-""" API Coupon Codes """
-
-# save, read all, read by code
-
-# ?? discount should be a length of 3
-# ?? discount should be a > 0
-# ?? discount should be a < 40
-# ?? discount must have numbers
+#############################
+#API Coupons
+#############################
 
 @app.post('/api/coupons')
 def save_coupon():
