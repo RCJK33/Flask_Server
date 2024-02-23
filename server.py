@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, send_from_directory
 import json
 
 from config import db
@@ -11,7 +11,8 @@ CORS(app)
 
 @app.get('/')
 def home():
-    return "Hello, this is a home page"
+    #retornar un archivo html en ortra carpeta del sistema
+    return send_from_directory('static', 'tu_archivo.html')
 
 
 @app.get('/api/about')

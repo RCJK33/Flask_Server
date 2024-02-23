@@ -1,7 +1,7 @@
 import pymongo
 import certifi
 
-uri = "mongodb+srv://fsdi:rooter32@cluster0.q0t28gv.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://admin0:1234admin@cluster0.vypjbc9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 client = pymongo.MongoClient(uri, tlsCAFile = certifi.where())
 db = client.get_database("organika") # could be another schema name
