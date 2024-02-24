@@ -9,10 +9,27 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.get('/')
-def home():
-    #retornar un archivo html en ortra carpeta del sistema
-    return send_from_directory('static', 'tu_archivo.html')
+@app.route('/')
+def index():
+    # Ruta raíz sirve el archivo index.html de la carpeta de construcción de React
+    return send_from_directory("./build", "index.html")
+
+# Ruta para servir archivos estáticos (CSS, JS, imágenes, etc.)
+@app.route('/static/js/<path:path>')
+def send_js(path):
+    return send_from_directory('./build/static/js', path)
+
+@app.route('/static/css/<path:path>')
+def send_css(path):
+    return send_from_directory('./build/static/css', path)
+
+@app.route('/static/media/<path:path>')
+def send_media(path):
+    return send_from_directory('./build/static/media', path)
+
+@app.route('/images/<path:path>')
+def send_images(path):
+    return send_from_directory('./build/images', path)
 
 
 @app.get('/api/about')
@@ -187,4 +204,4 @@ def delete_coupon(_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
